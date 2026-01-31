@@ -65,8 +65,8 @@ pipeline {
          }
          stage('Deploy Application') {
              steps {
-                 sh 'docker stop login-app'
-                 sh 'docker rm login-app'
+                 sh 'docker stop login-app || true'
+                 sh 'docker rm login-app || true'
                  sh 'docker run -d --name login-app -p 8081:8080 shadow493/java-login:latest'
              }
          }
