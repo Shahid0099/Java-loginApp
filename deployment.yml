@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-app
+  namespace: login-app
+spec:
+  replicas: 1
+  selector: 
+   matchLabels:
+    app: login-app
+  template:
+    metadata: 
+      labels:
+        app: login-app
+    spec: 
+     containers:
+      - name: app
+        image: shadow493/java-login:latest
+        ports: 
+          - containerPort: 8080
+
