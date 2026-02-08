@@ -58,7 +58,7 @@ pipeline {
                 echo 'Pushing Image to Hub'
                 withDockerRegistry(credentialsId: 'dock-cred', url: 'https://index.docker.io/v1/') {
                 sh "docker login"    
-                sh "docker push shadow493/java-login:latest"
+                sh "docker push shadow493/java-login:${BUILD_NUMBER}"
                 }
             }
          }
