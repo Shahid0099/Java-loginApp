@@ -22,7 +22,7 @@ pipeline {
         stage('checkout code ') {
             steps {
                 echo 'code is cloned from github'
-                git branch: 'main', url: 'https://github.com/Shahid0099/Java-loginApp.git'
+                checkout scm
             }
         }
         stage('build & unit tests') {
@@ -50,24 +50,24 @@ pipeline {
         stage ('build docker image') {
             steps {
                 echo 'building image'
-                sh 'docker build -t shadow493/java-login:latest .'
+                sh 'docker build -t shadow493/java-login:${BUILD_NUMBER} .'
             }
         }
          stage('Push to DockerHub') {
             steps {
                 echo 'Pushing Image to Hub'
                 withDockerRegistry(credentialsId: 'dock-cred', url: 'https://index.docker.io/v1/') {
-                sh 'docker tag java-login shadow493/java-login:latest'
+                sh 'docker tag java-login shadow493/java-login:${BUILD_NUMBER}'
                 sh 'docker login'    
-                sh 'docker push shadow493/java-login:latest'
+                sh 'docker push shadow493/java-login:${BUILD_NUMBER}'
                 }
             }
          }
-         stage('Deploy Application') {
+         stage('Deploy Application with k8s') {
              steps {
-                 sh 'docker stop login-app || true'
-                 sh 'docker rm login-app || true'
-                 sh 'docker run -d --name login-app -p 8081:8080 shadow493/java-login:latest'
+                 sh 'kubectl apply -f deployment.yml'
+                 sh 'kubectl apply -f service.yml'
+                 sh 'kubectl apply -f namespace.yml'
              }
          }
          stage('Cleanup') {
