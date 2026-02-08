@@ -11,6 +11,8 @@ pipeline {
         APP_NAME    = "java-loginApp"
         REGISTRY    = "docker-io"
         IMAGE_TAG   = "${GIT_COMMIT}"
+        KUBECONFIG  = "/etc/rancher/k3s/k3s.yaml"
+
     }
 
     stages {
