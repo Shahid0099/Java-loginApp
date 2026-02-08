@@ -15,7 +15,7 @@ spec:
     spec: 
      containers:
       - name: app
-        image: shadow493/java-login:latest
+        image: shadow493/java-login:IMAGE_TAG
         ports: 
           - containerPort: 8080
 
